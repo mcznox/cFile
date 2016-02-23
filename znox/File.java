@@ -64,6 +64,7 @@ public class File {
     public File addValue(Object path, Object[] values) throws Exception {
         // Checa se o arquivo já existe
         if (!exist()) {
+            // Erros...
             throw new Error("Primeiramente, crie um arquivo...");
         }
         // Cria uma nova instancia para a edição do arquivo
@@ -87,11 +88,13 @@ public class File {
             // Cria o novo arquivo
             getFile().createNewFile();
         } else {
+            // Erros...
             throw new Error("O arquivo ja existe.");
         }
         return this;
     }
-
+    
+    // Checa se o arquivo já existe
     public boolean exist() {
         return file != null && (file.exists() && !file.isDirectory()) ? true : false;
     }
