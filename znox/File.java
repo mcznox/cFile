@@ -2,8 +2,10 @@ package znox;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 
 public class File {
 
@@ -31,6 +33,18 @@ public class File {
     // Retorna o arquivo
     public java.io.File getFile() { return file; }
 
+    // Retorna o arquivo
+    public java.io.File getFileDirectory() { return new java.io.File(getDirectory() + getFileName() + "." + getExtension()); }
+
+    // Retorna um arquivo com nome especifico
+    public java.io.File getFileDirectory(String fileName) { return new java.io.File(getDirectory() + fileName + "." + getExtension()); }
+
+    // Retorna um arquivo com nome e extensão específicas
+    public java.io.File getFileDirectory(String fileName, String extension) { return new java.io.File(getDirectory() + fileName + "." + extension); }
+
+    // Retorna o diretorio onde o aplicativo esta
+    public String getDirectory() { return System.getProperty("user.dir") + "/".replaceAll("/", Matcher.quoteReplacement("\\/")); }
+
     // Aplica um novo arquivo a variavel de arquivo
     public java.io.File setFile(java.io.File file) { return this.file = file; }
 
@@ -47,16 +61,16 @@ public class File {
     }
 
     // Adiciona um valor ao arquivo
-    public File addValue(String path, String value) throws Exception {
+    public File addValue(Object path, Object[] values) throws Exception {
         // Checa se o arquivo já existe
-        if (getFile() == null) {
+        if (!exist()) {
             throw new Error("Primeiramente, crie um arquivo...");
         }
         // Cria uma nova instancia para a edição do arquivo
         PrintWriter writer = new PrintWriter(file, "UTF-8");
 
         // Escreve no arquivo
-        writer.println(builder(new String[] { path, value }));
+        writer.println(builder(path, values));
 
         // Fecha a conexão com a instancia
         writer.close();
@@ -64,32 +78,41 @@ public class File {
     }
 
     // Cria um novo rquivo
-    public File create() {
-        java.io.File file = new java.io.File(getFileName() + "." + getExtension());
+    public File create() throws Exception {
+        java.io.File file = new java.io.File(getDirectory() + getFileName() + "." + getExtension());
         if (!file.exists()) {
+            // Declara a variavel do arquivo
             this.file = file;
+
+            // Cria o novo arquivo
+            getFile().createNewFile();
         } else {
             throw new Error("O arquivo ja existe.");
         }
-
         return this;
     }
 
-    // Cria o estilo do arquivo
-    public static String builder(String[] strings) {
-        StringBuilder builder = new StringBuilder();
-        List<String> stringList = new ArrayList<String>();
-        for (String string : strings) { stringList.add(string); }
-        for (String string : stringList) {
-            if (builder.length() > 1) {
-                builder.append(" = ");
-            } else {
-                return string + " = null;";
-            }
-            builder.append(string);
+    public boolean exist() {
+        return file != null && (file.exists() && !file.isDirectory()) ? true : false;
+    }
+
+    // Cria o estilo de linhas do arquivo
+    public String builder(Object key, Object[] values) {
+        List<Object> objectList = new ArrayList<Object>();
+        for (Object object : values) {
+            objectList.add(object);
         }
-        // Retorna ' valor = valor1; '
-        return builder.toString() + ";";
+
+        StringBuilder builder = new StringBuilder();
+        for (Object object : objectList) {
+            if (builder.length() > 0) {
+                builder.append(", ");
+            }
+            builder.append(object);
+        }
+
+        String string = key + " = " + builder.toString() + ";";
+        return string;
     }
 
 }
