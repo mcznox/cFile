@@ -26,7 +26,7 @@ public class Example {
         file.addValue("nickname", new Object[] {
                 "zNoX_", "Programador", 16
                 // Irá setar no arquivo assim:
-                // values = zNoX_, Programador, 16;
+                // nickname = zNoX_, Programador, 18;
         });
 
         // Retorna o arquivo em forma de java.io.File
