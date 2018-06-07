@@ -1,4 +1,4 @@
-package znox;
+package will;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
