@@ -14,7 +14,7 @@ public class Example {
         file.setFileName("teste");
 
         // Aplica a extensao do arquivo
-        file.setExtension("nox");
+        file.setExtension("wl");
 
         // Cria o arquivo
         file.create();
@@ -23,10 +23,10 @@ public class Example {
         file.exist();
 
         // Adiciona um valor ao arquivo
-        file.addValue("nickname", new Object[] {
-                "zNoX_", "Programador", 16
+        file.addValue("usuario", new Object[] {
+                "Will", "Programador", 16
                 // Irá setar no arquivo assim:
-                // nickname = zNoX_, Programador, 18;
+                // usuario = Will, Programador, 16;
         });
 
         // Retorna o arquivo em forma de java.io.File
@@ -39,7 +39,7 @@ public class Example {
         java.io.File file4 = file.getFileDirectory("teste");
 
         // Retorna um arquivo com nome e extensão específicas no diretorio da aplicação
-        java.io.File file5 = file.getFileDirectory("teste", "nox");
+        java.io.File file5 = file.getFileDirectory("teste", "wl");
     }
 
 }
